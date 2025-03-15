@@ -12,6 +12,4 @@ logging.basicConfig(
     format='[%(asctime)s] %(lineno)d %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO,
     ) 
-if __name__ == "__main__":
-    logging.info("This is a test log message")
-    logging.error("This is a test error message")
+
