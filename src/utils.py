@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 from src.exception import custom_exception
 import dill
+import pickle
 from sklearn.metrics import r2_score
 from sklearn.model_selection import GridSearchCV
 
@@ -21,15 +22,15 @@ def save_obj(file_path,obj):
 
 
 
-def evaluate_model(models,X_train,Y_train,X_test,Y_test,params):
+def evaluate_model(models,X_train,Y_train,X_test,Y_test,param):
     try:
         model_report={}
         for i in range(len(list(models))):
             model=list(models.values())[i]
-            para=params[list(models.keys())[i]]
+            para=param[list(models.keys())[i]]
 
             #model.fit(X_train,Y_train)
-            gs=GridSearchCV(model,cv=3,param_grid=para)
+            gs=GridSearchCV(model,para,cv=3)
             gs.fit(X_train,Y_train)
             model.set_params(**gs.best_params_)
             model.fit(X_train,Y_train)
@@ -41,6 +42,15 @@ def evaluate_model(models,X_train,Y_train,X_test,Y_test,params):
 
         return model_report             
 
+        
+    except Exception as e:
+        raise custom_exception(e,sys)
+    
+
+def load_object(file_path):
+    try:
+        with open(file_path,"rb") as file_obj:
+            return dill.load(file_obj)
         
     except Exception as e:
         raise custom_exception(e,sys)

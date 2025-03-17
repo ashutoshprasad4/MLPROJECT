@@ -15,7 +15,7 @@ from src.utils import save_obj
 
 @dataclass
 class DataTransformationConfig:
-    preproccesor_obj_file_path = os.path.join('artifacts', 'preprocessor.pkl')
+    preprocessor_obj_file_path = os.path.join('artifacts', 'preprocessor.pkl')
 
 class DataTransformation:
     def __init__(self):
@@ -78,7 +78,7 @@ class DataTransformation:
             input_features_test_df=test_df.drop(target_column,axis=1)
             target_column_test_df=test_df[target_column]
             logging.info("Fitting preprocessor object on train data")
-            preproccesor_obj.fit_transform(input_features_train_df)
+            
             input_features_train_df_transformed=preproccesor_obj.fit_transform(input_features_train_df)
             input_features_test_df_transformed=preproccesor_obj.transform(input_features_test_df)
             train_arr=np.c_[
